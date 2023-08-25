@@ -3,6 +3,7 @@
 namespace Wpjscc\Tests\React\Limiter;
 
 use Wpjscc\React\Limiter\TokenBucket;
+use function Wpjscc\React\Limiter\getMilliseconds;
 use function React\Async\async;
 use function React\Async\await;
 use function React\Promise\all;
@@ -12,30 +13,12 @@ use function React\Async\delay;
 
 class TokenBucketTest extends TestCase
 {
+    const TIMING_EPSILON = 10;
+
     public function testHello()
     {
         // var_dump(hrtime());
         $this->assertEquals('hello', 'hello');
-    }
-
-    public function testEvertSecond()
-    {
-
-        $bucket = new TokenBucket(20, 10, 1000);
-
-        delay(0.9);
-
-        $this->assertEquals(9, $bucket->getTokensRemaining());
-        await($bucket->removeTokens(9));
-
-        delay(0.1);
-        $this->assertEquals(1, $bucket->getTokensRemaining());
-
-        await($bucket->removeTokens(1));
-        $this->assertEquals(0, $bucket->getTokensRemaining());
-        delay(1);
-        $this->assertEquals(10, $bucket->getTokensRemaining());
-        
     }
 
     public function testAsyncBucket()
@@ -52,4 +35,66 @@ class TokenBucketTest extends TestCase
 
 
     }
+
+    // https://github.com/jhurliman/node-rate-limiter/blob/main/src/TokenBucket.test.ts
+    //removing 10 tokens takes 1 second 
+    public function testRemoving10TokendsTakes1Second()
+    {
+        $bucket = new TokenBucket(10, 1, 100);
+
+        $start = getMilliseconds();
+        $remainingTokens = await($bucket->removeTokens(10));
+        $end = getMilliseconds();
+
+        $this->assertTrue(true, $end-$start >= self::TIMING_EPSILON);
+        $this->assertEquals(0, $remainingTokens);
+        $this->assertEquals(0, $bucket->getTokensRemaining());
+    }
+
+    // removing another 10 tokens takes 1 second
+    public function testRemovingAnother10TokensTakes1Second()
+    {
+        $bucket = new TokenBucket(10, 1, 100);
+
+        await($bucket->removeTokens(10));
+
+        $start = getMilliseconds();
+        $remainingTokens = await($bucket->removeTokens(10));
+        $end = getMilliseconds();
+
+        $this->assertTrue(true, $end-$start >= self::TIMING_EPSILON);
+        $this->assertEquals(0, $remainingTokens);
+        $this->assertEquals(0, $bucket->getTokensRemaining());
+    }
+
+    // removing 20 tokens takes 2 seconds
+    public function testRemoving20TokensTakes2Seconds()
+    {
+        $bucket = new TokenBucket(10, 1, 100);
+        delay(2);
+
+        $start = getMilliseconds();
+        $remainingTokens = await($bucket->removeTokens(10));
+        $end = getMilliseconds();
+
+        $this->assertTrue(true, $end-$start >= self::TIMING_EPSILON);
+        $this->assertEquals(0, $remainingTokens);
+        $this->assertEquals(0, $bucket->getTokensRemaining());
+    }
+
+    // removing 1 token takes 100ms
+    public function testRemoving1TokenTakes100ms()
+    {
+        $bucket = new TokenBucket(10, 1, 100);
+
+        $start = getMilliseconds();
+        $remainingTokens = await($bucket->removeTokens(1));
+        $end = getMilliseconds();
+
+        $this->assertTrue(true, $end-$start >= self::TIMING_EPSILON);
+        $this->assertEquals(0, $remainingTokens);
+        $this->assertEquals(0, $bucket->getTokensRemaining());
+    }
+
+
 }

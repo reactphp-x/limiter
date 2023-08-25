@@ -52,8 +52,6 @@ class TokenBucket
         $this->parentBucket = $parentBucket;
         $this->content = 0;
         $this->lastDrip = getMilliseconds();
-        // var_dump($this->interval);
-        // exit(2132);
     }
 
     public function removeTokens(int $count): PromiseInterface
@@ -143,9 +141,26 @@ class TokenBucket
     public function getTokensRemaining(): int
     {
         $this->drip();
-        if ($this->bucketSize === 0) {
-            return PHP_INT_MAX;
-        }
         return $this->content;
+    }
+
+
+    public function getTokensPerInterval(): int
+    {
+        return $this->tokensPerInterval;
+    }
+
+    public function getInterval(): int
+    {
+        return $this->interval;
+    }
+    public function getBucketSize(): int
+    {
+        return $this->bucketSize;
+    }
+
+    public function setContent(int $content): void
+    {
+        $this->content = $content;
     }
 }
