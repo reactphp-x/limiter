@@ -1,5 +1,7 @@
 {
     "name": "wpjscc/reactphp-limiter",
+    "description": "A generic rate limiter for the web and reactphp. Useful for API clients, web crawling, or other tasks that need to be throttled",
+    "keywords": ["limiter", "reactphp", "rate-limiter", "bucket"],
     "require": {
         "php": "^8.1",
         "react/promise": "^3",
