@@ -1,9 +1,9 @@
 <?php
 
-namespace Wpjscc\React\Limiter;
+namespace Reactphp\Framework\Limiter;
 
 use React\Promise\PromiseInterface;
-use function Wpjscc\React\Limiter\getMilliseconds;
+use function Reactphp\Framework\Limiter\getMilliseconds;
 
 class TokenBucket
 {

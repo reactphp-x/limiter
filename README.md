@@ -13,7 +13,7 @@ that can be removed each interval to comply with common API restrictions such as
 ## Installation
 
 ```
-composer require wpjscc/reactphp-limiter
+composer require reactphp-framework/limiter -vvv
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ A simple example allowing 150 requests per hour:
 
 ```php
 
-use Wpjscc\React\Limiter\RateLimiter;
+use Reactphp\Framework\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -43,7 +43,7 @@ async (function sendRequest() {
 Another example allowing one message to be sent every 250ms:
 
 ```php
-use Wpjscc\React\Limiter\RateLimiter;
+use Reactphp\Framework\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -61,7 +61,7 @@ currently in effect before the promise is resolved, but if you pass in
 `remainingRequests` set to -1:
 
 ```php
-use Wpjscc\React\Limiter\RateLimiter;
+use Reactphp\Framework\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -88,7 +88,7 @@ TokenBucket. This will return immediately with a boolean value indicating if the
 token removal was successful.
 
 ```php
-use Wpjscc\React\Limiter\RateLimiter;
+use Reactphp\Framework\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -104,7 +104,7 @@ To get the number of remaining tokens **outside** the `removeTokens` promise,
 simply use the `getTokensRemaining` method.
 
 ```php
-use Wpjscc\React\Limiter\RateLimiter;
+use Reactphp\Framework\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -118,7 +118,7 @@ echo($limiter->getTokensRemaining());
 Using the token bucket directly to throttle at the byte level:
 
 ```php
-use Wpjscc\React\Limiter\TokenBucket;
+use Reactphp\Framework\Limiter\TokenBucket;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -148,6 +148,11 @@ Otherwise, earlier messages may get held up for long periods of time if more
 recent messages are continually draining the token bucket. This can lead to 
 out of order messages or the appearance of "lost" messages under heavy load.
 
+## Tests
+
+```
+./vendor/bin/phpunit tests
+```
 ## License
 
 MIT License

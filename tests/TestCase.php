@@ -1,6 +1,6 @@
 <?php
 
-namespace Wpjscc\Tests\React\Limiter;
+namespace Reactphp\Framework\Limiter\Tests;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase as BaseTestCase;

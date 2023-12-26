@@ -1,9 +1,9 @@
 <?php
 
-namespace Wpjscc\Tests\React\Limiter;
+namespace Reactphp\Framework\Limiter\Tests;
 
-use Wpjscc\React\Limiter\TokenBucket;
-use function Wpjscc\React\Limiter\getMilliseconds;
+use Reactphp\Framework\Limiter\TokenBucket;
+use function Reactphp\Framework\Limiter\getMilliseconds;
 use function React\Async\async;
 use function React\Async\await;
 use function React\Promise\all;
