@@ -13,7 +13,7 @@ that can be removed each interval to comply with common API restrictions such as
 ## Installation
 
 ```
-composer require reactphp-framework/limiter -vvv
+composer require reactphp-x/limiter -vvv
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ A simple example allowing 150 requests per hour:
 
 ```php
 
-use Reactphp\Framework\Limiter\RateLimiter;
+use ReactphpX\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -43,7 +43,7 @@ async (function sendRequest() {
 Another example allowing one message to be sent every 250ms:
 
 ```php
-use Reactphp\Framework\Limiter\RateLimiter;
+use ReactphpX\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -61,7 +61,7 @@ currently in effect before the promise is resolved, but if you pass in
 `remainingRequests` set to -1:
 
 ```php
-use Reactphp\Framework\Limiter\RateLimiter;
+use ReactphpX\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -88,7 +88,7 @@ TokenBucket. This will return immediately with a boolean value indicating if the
 token removal was successful.
 
 ```php
-use Reactphp\Framework\Limiter\RateLimiter;
+use ReactphpX\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -104,7 +104,7 @@ To get the number of remaining tokens **outside** the `removeTokens` promise,
 simply use the `getTokensRemaining` method.
 
 ```php
-use Reactphp\Framework\Limiter\RateLimiter;
+use ReactphpX\Limiter\RateLimiter;
 use function React\Async\async;
 use function React\Async\await;
 
@@ -118,7 +118,7 @@ echo($limiter->getTokensRemaining());
 Using the token bucket directly to throttle at the byte level:
 
 ```php
-use Reactphp\Framework\Limiter\TokenBucket;
+use ReactphpX\Limiter\TokenBucket;
 use function React\Async\async;
 use function React\Async\await;
 

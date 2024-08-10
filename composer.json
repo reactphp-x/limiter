@@ -1,5 +1,5 @@
 {
-    "name": "reactphp-framework/limiter",
+    "name": "reactphp-x/limiter",
     "description": "A generic rate limiter for the web and reactphp. Useful for API clients, web crawling, or other tasks that need to be throttled",
     "keywords": ["limiter", "reactphp", "rate-limiter", "bucket"],
     "require": {
@@ -10,7 +10,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Reactphp\\Framework\\Limiter\\": "src/"
+            "ReactphpX\\Limiter\\": "src/"
         },
         "files": [
             "src/functions.php"
@@ -18,7 +18,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Reactphp\\Framework\\Limiter\\Tests\\": "tests/"
+            "ReactphpX\\Limiter\\Tests\\": "tests/"
         }
     },
     "require-dev": {

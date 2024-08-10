@@ -1,9 +1,9 @@
 <?php
 
-namespace Reactphp\Framework\Limiter\Tests;
+namespace ReactphpX\Limiter\Tests;
 
-use Reactphp\Framework\Limiter\TokenBucket;
-use function Reactphp\Framework\Limiter\getMilliseconds;
+use ReactphpX\Limiter\TokenBucket;
+use function ReactphpX\Limiter\getMilliseconds;
 use function React\Async\async;
 use function React\Async\await;
 use function React\Promise\all;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Reactphp\Framework\Limiter;
+namespace ReactphpX\Limiter;
 
 function getMilliseconds(): int {
 

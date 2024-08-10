@@ -1,8 +1,8 @@
 <?php
 
-namespace Reactphp\Framework\Limiter;
+namespace ReactphpX\Limiter;
 
-use function Reactphp\Framework\Limiter\getMilliseconds;
+use function ReactphpX\Limiter\getMilliseconds;
 use React\Promise\PromiseInterface;
 
 class RateLimiter

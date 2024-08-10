@@ -1,9 +1,9 @@
 <?php
 
-namespace Reactphp\Framework\Limiter;
+namespace ReactphpX\Limiter;
 
 use React\Promise\PromiseInterface;
-use function Reactphp\Framework\Limiter\getMilliseconds;
+use function ReactphpX\Limiter\getMilliseconds;
 
 class TokenBucket
 {
