@@ -22,7 +22,8 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "reactphp-x/concurrent": "^1.0"
     },
     "authors": [
         {

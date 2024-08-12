@@ -26,7 +26,7 @@ class TokenBucketTest extends TestCase
         $bucket = new TokenBucket(20, 10, 1000);
 
         $promise = async(function () use ($bucket) {
-            delay(1);
+            delay(1); 
             return $bucket->removeTokens(9);
         })();
 

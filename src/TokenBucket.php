@@ -126,10 +126,13 @@ class TokenBucket
 
         $now = getMilliseconds();
         $deltaMS = max($now-$this->lastDrip, 0);
+
+
+        $dripAmount = (int) round($deltaMS * ($this->tokensPerInterval / $this->interval));
+
+        if ($dripAmount == 0) return false;
+
         $this->lastDrip = $now;
-
-
-        $dripAmount = floor($deltaMS * ($this->tokensPerInterval / $this->interval));
 
         $precContent = $this->content;
 
