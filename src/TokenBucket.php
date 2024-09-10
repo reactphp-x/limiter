@@ -129,7 +129,8 @@ class TokenBucket
         $now = getMilliseconds();
         $deltaMS = max($now-$this->lastDrip, 0);
 
-
+        $this->diffDripMs = 0;
+        
         $dripAmount = (int) round($deltaMS * ($this->tokensPerInterval / $this->interval));
 
         if ($dripAmount == 0) return false;
