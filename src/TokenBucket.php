@@ -19,6 +19,8 @@ class TokenBucket
 
     protected int $lastDrip;
 
+    public int $diffDripMs = 0;
+
     public function __construct(int $bucketSize = 0, int $tokensPerInterval = 1024, int | string $interval = 1, ?TokenBucket $parentBucket = null)
     {
 
@@ -132,6 +134,8 @@ class TokenBucket
 
         if ($dripAmount == 0) return false;
 
+        $this->diffDripMs = $deltaMS;
+
         $this->lastDrip = $now;
 
         $precContent = $this->content;
@@ -167,9 +171,9 @@ class TokenBucket
         $this->content = $content;
     }
 
-    public function setLastDrip(int $lastDrip): void
+    public function addDrip(int $drip): void
     {
-        $this->lastDrip = $lastDrip;
+        $this->lastDrip += $drip;
     }
 
     public function addTokens(int $count): void
