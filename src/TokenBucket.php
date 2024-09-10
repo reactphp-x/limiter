@@ -167,6 +167,11 @@ class TokenBucket
         $this->content = $content;
     }
 
+    public function setLastDrip(int $lastDrip): void
+    {
+        $this->lastDrip = $lastDrip;
+    }
+
     public function addTokens(int $count): void
     {
         $this->drip();
