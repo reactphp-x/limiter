@@ -166,4 +166,10 @@ class TokenBucket
     {
         $this->content = $content;
     }
+
+    public function addTokens(int $count): void
+    {
+        $this->drip();
+        $this->content = min($this->bucketSize, $this->content + $count);
+    }
 }
