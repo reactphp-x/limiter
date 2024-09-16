@@ -95,4 +95,12 @@ class RateLimiter
     {
         return $this->tokenBucket->getTokensRemaining();
     }
+
+    public function addTokens(int $count): void
+    {
+        $drip = (int) (($count * $this->tokenBucket->getInterval()) / $this->tokenBucket->getTokensPerInterval());
+        $this->curIntervalStart = max(0, $this->curIntervalStart - $drip);
+        $this->tokensThisInterval = max(0, $this->tokensThisInterval - $count);
+        $this->tokenBucket->addTokens($count);
+    }
 }
