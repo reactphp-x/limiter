@@ -93,7 +93,9 @@ class RateLimiter
 
     public function getTokensRemaining(): int
     {
-        return $this->tokenBucket->getTokensRemaining();
+        $this->tryRemoveTokens(0);
+        return $this->tokenBucket->getTokensPerInterval() - $this->tokensThisInterval;
+        // return $this->tokenBucket->getTokensRemaining();
     }
 
     public function addTokens(int $count): void
