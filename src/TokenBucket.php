@@ -57,46 +57,36 @@ class TokenBucket
     public function removeTokens(int $count): PromiseInterface
     {
 
-        $that = $this;
-        return \React\Async\async(function () use ($count, $that) {
-
-            if ($that->bucketSize === 0) {
-                return \React\Promise\resolve(PHP_INT_MAX);
-            }
-    
-            if ($count > $this->bucketSize) {
-                throw new \Exception("Requested tokens {$count} exceeds bucket size {$this->bucketSize}");
-            }
-    
-            $that->drip();
-    
-            $comeBackLater = function () use ($count, $that): PromiseInterface {
-                return \React\Async\async(function () use ($that, $count): PromiseInterface {
-                    $waitMs = ceil(($count - $that->content) * ($that->interval / $that->tokensPerInterval));
-                    \React\Async\delay($waitMs/1000);
-                    return $that->removeTokens($count);
-                })();
-            };
-    
-            if ($count > $that->content) {
-                return $comeBackLater();
-            }
-
-            if ($that->parentBucket) {
-                $remainingTokens = \React\Async\await($that->parentBucket->removeTokens($count));
-
-                if ($count > $that->content) {
-                    return $comeBackLater();
-                }
-
-                $that->content -= $count;
-
-                return min($remainingTokens, $that->content);
-            } else {
-                $that->content -= $count;
-                return $that->content;
-            }
-        })();
+		$that = $this;
+		return \React\Async\async(function () use ($count, $that) {
+			if ($that->bucketSize === 0) {
+				return PHP_INT_MAX;
+			}
+			if ($count > $that->bucketSize) {
+				throw new \Exception("Requested tokens {$count} exceeds bucket size {$that->bucketSize}");
+			}
+			while (true) {
+				$that->drip();
+				if ($count <= $that->content) {
+					if ($that->parentBucket) {
+						$remainingTokens = \React\Async\await($that->parentBucket->removeTokens($count));
+						$that->drip();
+						if ($count > $that->content) {
+							$waitMs = (int) ceil(($count - $that->content) * ($that->interval / $that->tokensPerInterval));
+							\React\Async\delay($waitMs / 1000);
+							continue;
+						}
+						$that->content -= $count;
+						return min($remainingTokens, $that->content);
+					} else {
+						$that->content -= $count;
+						return $that->content;
+					}
+				}
+				$waitMs = (int) ceil(($count - $that->content) * ($that->interval / $that->tokensPerInterval));
+				\React\Async\delay($waitMs / 1000);
+			}
+		})();
     }
 
     public function tryRemoveTokens(int $count): bool
